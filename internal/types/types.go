@@ -1,7 +1,7 @@
 package types
 
 type User struct {
-	Id    int    `validate:"required"`
+	Id    int
 	Name  string `validate:"required"`
 	Email string `validate:"required"`
 	Age   int    `validate:"required"`

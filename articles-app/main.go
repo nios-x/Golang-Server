@@ -11,16 +11,23 @@ import (
 
 	"github.com/nios-x/articles-go/internal/config"
 	"github.com/nios-x/articles-go/internal/http/handlers/users"
+	"github.com/nios-x/articles-go/internal/storage/sqlite"
 )
 
 func main() {
 	cfg := config.MustLoad()
 
+	db, err := sqlite.New(cfg)
+	if err != nil {
+		panic(err)
+	}
+
 	router := http.NewServeMux()
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World"))
 	})
-	router.HandleFunc("POST /create", users.New())
+	router.HandleFunc("POST /create", users.New(db))
+	router.HandleFunc("GET /id/{id}", users.GetByID(db))
 	// Create the server
 	server := &http.Server{
 		Addr:    cfg.HttpServer.Addr,
