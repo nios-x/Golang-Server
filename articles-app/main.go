@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/nios-x/articles-go/internal/config"
+	"github.com/nios-x/articles-go/internal/http/handlers/users"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World"))
 	})
-
+	router.HandleFunc("POST /create", users.New())
 	// Create the server
 	server := &http.Server{
 		Addr:    cfg.HttpServer.Addr,
